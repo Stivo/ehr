@@ -2,8 +2,8 @@
 
 var express = require('express'),
     path = require('path'),
-    fs = require('fs'),
-    mongoose = require('mongoose');
+    fs = require('fs');
+;
 
 /**
  * Main application file
@@ -13,7 +13,8 @@ var express = require('express'),
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var config = require('./lib/config/config');
-var db = mongoose.connect(config.mongo.uri, config.mongo.options);
+
+//var db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
 // Bootstrap models
 var modelsPath = path.join(__dirname, 'lib/models');
@@ -31,13 +32,17 @@ var passport = require('./lib/config/passport');
 
 // Setup Express
 var app = express();
-require('./lib/config/express')(app);
-require('./lib/routes')(app);
 
 var mysql = require('mysql');
 var squel = require('squel');
 var MongoClient = require('mongodb').MongoClient
     , format = require('util').format;
+
+var db = {};
+MongoClient.connect('mongodb://127.0.0.1:27017/test', function(err, dbNew) {
+    if (err) throw err;
+    db = dbNew;
+});
 
 var connectionpool = mysql.createPool({
     host     : process.env.RDS_HOSTNAME || 'localhost',
@@ -46,12 +51,6 @@ var connectionpool = mysql.createPool({
     port 	   : process.env.RDS_PORT || 3306,
     database: 'ebdb',
     timezone: 'UTC' // important: if not set, node-mysql does funny time calculations
-});
-
-var db = {};
-MongoClient.connect('mongodb://127.0.0.1:27017/test', function(err, dbNew) {
-    if (err) throw err;
-    db = dbNew;
 });
 
 startMongoDbService('consultation');
@@ -100,7 +99,6 @@ function startMongoDbService(serviceName) {
         } else if (mode==="create") {
             console.dir(request.body);
             coll.insert(request.body, function(err, docs) {
-                response.send()
                 response.send("Has error? "+err);
             });
         } else {
@@ -156,7 +154,10 @@ function startQueryService(serviceName, allowedForFiltering) {
         });
 }
 
+require('./lib/config/express')(app);
+require('./lib/routes')(app);
 
+app.set('json spaces', 2);
 // Start server
 app.listen(config.port, config.ip, function () {
   console.log('Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get('env'));
