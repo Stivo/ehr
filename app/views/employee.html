@@ -1,0 +1,30 @@
+<div class="container">
+	<h1>Employees</h1>
+
+	<p>
+		<ul class="list-group">
+			<li class="list-group-item" ng-repeat='employee in employees'>{{employee.firstname}}, {{employee.lastName}}</li>
+		</ul>
+	</p>
+
+    <form>
+
+        <legend>Create User</legend>
+        <label>Name</label>
+        <input type="text" id="name" name="name" ng-model="formConsultation.name" placeholder="User Name">
+
+        <label>Email</label>
+        <input type="text" id="email" name="email" ng-model="formConsultation.email" placeholder="ur email here">
+
+        <label>Password</label>
+        <input type="text" id="pwd" name="pwd" ng-model="formConsultation.pwd" placeholder="ur own pwd here">
+
+        <button ng-click="submitForm()" class="btn btn-primary">Create new Object</button>
+
+        <span>{{formConsultation.name}}</span>
+        <li ng-repeat="c in consultation">
+            <ul>{{c.id}}</ul>
+        </li>
+
+    </form>
+</div>

@@ -1,0 +1,50 @@
+<div class="container">
+	<h1>Patients</h1>
+
+    <div >
+        <form novalidate class="simple-form container-fluid">
+            <label class="col-xs-12 col-sm-3" >Vorname</label>
+            <input class="col-xs-12 col-sm-9" type="text" ng-model="formPatient.firstname" />
+            <label class="col-xs-12 col-sm-3">Nachname</label>
+            <input class="col-xs-12 col-sm-9" type="text" ng-model="formPatient.lastName" />
+            <button class="col-xs-12 col-sm-offset-6 col-sm-3" ng-click="reset()">Zurücksetzen</button>
+            <button class="col-xs-12 col-sm-3" ng-click="search()">Suchen</button>
+        </form>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Panel heading</div>
+        <div class="panel-body">
+            <p>Click a person in order to jump to details view.</p>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Birthday</th>
+                    <th>PatientId</th>
+                </tr>
+            </thead>
+            <tbody data-link="row" class="rowlink">
+                <tr ng-repeat="patient in filteredUsers">
+                        <td>
+                            {{patient.firstname}}
+                        </td>
+                        <td>
+                            {{patient.lastname}}
+                        </td>
+                        <td>
+                            {{patient.birthday | date : 'dd.MM.yyyy'}}
+                        </td>
+                        <td>
+                <a ng-href="#/patients/{{patient.id}}">
+                            {{patient.id}}
+                    </a>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

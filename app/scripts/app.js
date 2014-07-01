@@ -4,8 +4,32 @@ angular.module('ehrApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngRoute'
+  'ngRoute',
+  'ngTouch',
+  'ngAnimate'
 ])
+    .controller('TabsCtrl', ['$scope', function ($scope) {
+        $scope.tabs = [{
+            title: 'Home',
+            url: '#'
+        }, {
+            title: 'Employees',
+            url: '#/employee'
+        }, {
+            title: 'Patients',
+            url: '#/patients'
+        }];
+
+        $scope.currentTab = '#';
+
+        $scope.onClickTab = function (tab) {
+            $scope.currentTab = tab.url;
+        }
+
+        $scope.isActiveTab = function(tabUrl) {
+            return tabUrl == $scope.currentTab;
+        }
+    }])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .when('/', {
@@ -25,7 +49,23 @@ angular.module('ehrApp', [
         controller: 'SettingsCtrl',
         authenticate: true
       })
-      .otherwise({
+        .when('/employee', {
+            templateUrl: 'views/employee.html',
+            controller: 'EmployeeCtrl'
+        })
+        .when('/patients', {
+            templateUrl: 'views/patients.html',
+            controller: 'PatientCtrl'
+        })
+        .when('/patients/:id', {
+            templateUrl: 'views/patient_details.html',
+            controller: 'PatientDetailsCtrl'
+        })
+        .when('/about', {
+            templateUrl: 'views/about.html',
+            controller: 'AboutCtrl'
+        })
+        .otherwise({
         redirectTo: '/'
       });
       
