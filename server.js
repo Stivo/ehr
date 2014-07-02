@@ -3,7 +3,7 @@
 var express = require('express'),
     path = require('path'),
     fs = require('fs');
-;
+var validators = require('./app/scripts/validation');
 
 /**
  * Main application file
@@ -108,10 +108,13 @@ function startMongoDbService(serviceName) {
             });
         } else if (mode==="validate") {
             var obj = request.body;
+            console.dir(validators.validateUser(obj));
             if (!obj.name || ""===obj.name) {
                 response.send({error: "Please enter a name", field: "name", input: obj});
             } else if ("Stivo"===obj.name) {
                 response.send({error: "This name is taken and always will be", field: "name", input: obj});
+            } else if (validators.validateUser(obj).error) {
+                response.send(validators.validateUser(obj));
             } else
             {
                 coll.findOne({name: obj.name}, function (err, item) {

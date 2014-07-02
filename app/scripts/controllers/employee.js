@@ -21,6 +21,8 @@ angular.module('ehrApp')
 
         $scope.lastResponse = {};
 
+        $scope.validation = {};
+
         function update() {
             $http.post('http://localhost:9000/consultation?mode=validate', $scope.formConsultation).then(function (callback) {
                 if (angular.equals($scope.formConsultation, callback.data.input)) {
@@ -31,6 +33,7 @@ angular.module('ehrApp')
 
         $scope.$watch('formConsultation', function(newValue, oldValue) {
             debounce(update, 1000);
+            $scope.validation = validateUser(newValue);
         }, true);
         $scope.submitForm = function () {
             $http.post('http://localhost:9000/consultation?mode=create', $scope.formConsultation).then(function (callback) {

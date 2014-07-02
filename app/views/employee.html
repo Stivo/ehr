@@ -1,9 +1,9 @@
 <div ng-include="'partials/navbar.html'"></div>
 
 <div class="container">
-	<h1>Employees</h1>
+	<h1 class="col-xs-12">Employees</h1>
 
-	<p>
+	<p class="col-xs-12">
 		<ul class="list-group">
 			<li class="list-group-item" ng-repeat='employee in employees'>{{employee.firstname}}, {{employee.lastName}}</li>
 		</ul>
@@ -12,23 +12,35 @@
     <form novalidate name="myForm"
           ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 2000} }">
 
-        <legend>Create User</legend>
-        <label>Name</label>
-        <input required type="text" id="name" name="name" ng-model="formConsultation.name" placeholder="User Name">
-        <span ng-show="lastResponse.field==='name'">{{lastResponse.error}}</span>
+        <div class="row">
+            <label class="col-sm-3 col-xs-12">Name</label>
+            <input class="col-sm-9 col-xs-12" required type="text" id="name" name="name"
+                   ng-model="formConsultation.name" placeholder="User Name"/>
+        </div>
+        <div class="row">
+            <div class="col-sm-offset-3 col-sm-9 col-xs-12" ng-show="lastResponse.field==='name'">
+                {{lastResponse.error}}
+            </div>
+            <div class="col-sm-offset-3 col-sm-9 col-xs-12" ng-if="validation.field==='name'">{{validation.error}}</div>
+        </div>
 
-        <label>Email</label>
-        <input required type="email" id="email" name="email" ng-model="formConsultation.email" placeholder="ur email here">
+        <div class="row">
+            <label class="col-sm-3 col-xs-12">Email</label>
+            <input class="col-sm-9 col-xs-12" required type="email" id="email" name="email"
+                   ng-model="formConsultation.email" placeholder="ur email here"/>
+        </div>
 
-        <label>Password</label>
-        <input required type="password" id="pwd" name="pwd" ng-model="formConsultation.pwd" placeholder="ur own pwd here">
+        <div class="row">
+            <label class="col-sm-3 col-xs-12">Password</label>
+            <input class="col-sm-9 col-xs-12" required type="password" id="pwd" name="pwd"
+                   ng-model="formConsultation.pwd" placeholder="ur own pwd here"/>
+        </div>
         <!--ng-disabled="myForm.$invalid"-->
-        <button  ng-click="submitForm()" class="btn btn-primary">Create new Object</button>
-
-        <span>{{formConsultation.name}}</span>
-        <li ng-repeat="c in consultation">
-            <ul>{{c.id}}</ul>
-        </li>
+        <div class="row">
+            <button class="col-sm-offset-9 col-sm-3 col-xs-12 btn btn-primary" ng-click="submitForm()">Create new
+                Object
+            </button>
+        </div>
 
     </form>
 </div>
