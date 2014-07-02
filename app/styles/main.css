@@ -77,3 +77,10 @@ body {
     border-bottom: 0;
   }
 }
+
+.ng-invalid.ng-dirty:not(form) {
+    border: 2px solid red;
+}
+.ng-valid.ng-dirty:not(form) {
+    border: 2px solid green;
+}

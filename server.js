@@ -106,11 +106,37 @@ function startMongoDbService(serviceName) {
                     response.send(results);
                 });
             });
+        } else if (mode==="validate") {
+            var obj = request.body;
+            if (!obj.name || ""===obj.name) {
+                response.send({error: "Please enter a name", field: "name", input: obj});
+            } else if ("Stivo"===obj.name) {
+                response.send({error: "This name is taken and always will be", field: "name", input: obj});
+            } else
+            {
+                coll.findOne({name: obj.name}, function (err, item) {
+                    console.log("Name here ist " + obj.name + " item "+ item);
+                    if (item) {
+                        response.send({error: "This name is taken", field: "name", input: obj});
+                    } else {
+                        response.send({input: obj});
+                    }
+                });
+            }
         } else if (mode==="create") {
             console.dir(request.body);
-            coll.insert(request.body, function(err, docs) {
-                response.send("Has error? "+err);
-            });
+            var obj = request.body;
+            if (!obj.name || ""===obj.name) {
+                response.send({error: "Please enter a name", field: "name", input: obj});
+            } else if ("Stivo"===obj.name) {
+                obj.name = "Loser";
+                response.send({error: "This name is taken and always will be", field: "name", input: obj});
+            } else
+            {
+                coll.insert(request.body, function (err, docs) {
+                    response.send({success: err});
+                });
+            }
         } else {
             response.send("Unsupported mode: "+ mode);
         }

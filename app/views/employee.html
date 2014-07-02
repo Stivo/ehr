@@ -9,19 +9,21 @@
 		</ul>
 	</p>
 
-    <form>
+    <form novalidate name="myForm"
+          ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 2000} }">
 
         <legend>Create User</legend>
         <label>Name</label>
-        <input type="text" id="name" name="name" ng-model="formConsultation.name" placeholder="User Name">
+        <input required type="text" id="name" name="name" ng-model="formConsultation.name" placeholder="User Name">
+        <span ng-show="lastResponse.field==='name'">{{lastResponse.error}}</span>
 
         <label>Email</label>
-        <input type="text" id="email" name="email" ng-model="formConsultation.email" placeholder="ur email here">
+        <input required type="email" id="email" name="email" ng-model="formConsultation.email" placeholder="ur email here">
 
         <label>Password</label>
-        <input type="text" id="pwd" name="pwd" ng-model="formConsultation.pwd" placeholder="ur own pwd here">
-
-        <button ng-click="submitForm()" class="btn btn-primary">Create new Object</button>
+        <input required type="password" id="pwd" name="pwd" ng-model="formConsultation.pwd" placeholder="ur own pwd here">
+        <!--ng-disabled="myForm.$invalid"-->
+        <button  ng-click="submitForm()" class="btn btn-primary">Create new Object</button>
 
         <span>{{formConsultation.name}}</span>
         <li ng-repeat="c in consultation">
