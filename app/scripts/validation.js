@@ -2,8 +2,9 @@
  * Created by stac on 02.07.2014.
  */
 
-module.exports = {
-    validateUser: function (obj)
+(function(exports){
+
+    exports.validateUser = function (obj)
     {
         var fieldname = null;
 
@@ -23,5 +24,6 @@ module.exports = {
             return createError("Name ist zu kurz");
         }
         return {input: obj};
-    }
-};
+    };
+
+})(typeof exports === 'undefined'? this['validators']={}: exports);
